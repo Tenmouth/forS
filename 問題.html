@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学クイズ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            transition: background-color 2s ease-in-out;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+        }
+        .message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #333;
+        }
+        .next-button {
+            display: none;
+            cursor: pointer;
+        }
+        .congratulations {
+            position: absolute;
+            font-size: 2rem;
+            color: red;
+            animation: blink 0.5s infinite alternate;
+            z-index: 1; /* 手前に配置するための設定 */
+        }
+        .tomato {
+            position: absolute;
+            font-size: 20rem; /* 10倍に設定 */
+            color: white;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            z-index: 2; /* より手前に配置するための設定 */
+        }
+        @keyframes blink {
+            0%, 20%, 50%, 70%, 100% { opacity: 1; }
+            10%, 30%, 60%, 80%, 90% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="quizContainer">
+        <h1 id="question">1 + 1 = ?</h1>
+        <input type="text" id="answer" placeholder="答えを入力">
+        <button onclick="checkAnswer()">送信</button>
+        <div class="message" id="message"></div>
+        <button class="next-button" id="nextButton" onclick="nextQuestion()">次へ</button>
+    </div>
+    <div class="congratulations" id="congratulations" style="display:none;">
+        ぜんぶとけたね！すごい！
+    </div>
+    <div class="tomato" id="tomato" style="display:none;">
+        🍅
+    </div>
+    <script>
+        let currentQuestion = 1;
+
+        function checkAnswer() {
+            const answer = document.getElementById("answer").value;
+            const message = document.getElementById("message");
+            const nextButton = document.getElementById("nextButton");
+
+            if (currentQuestion === 1 && answer === "2") {
+                message.textContent = "せいかい！すごいね";
+                nextButton.style.display = "block";
+            } else if (currentQuestion === 2 && answer === "6") {
+                message.textContent = "せいかい！すごいね";
+                nextButton.style.display = "block";
+            } else if (currentQuestion === 3 && answer === "3") {
+                message.textContent = "せいかい！すごいね";
+                nextButton.style.display = "block";
+            } else if (currentQuestion === 4 && answer === "12") {
+                message.textContent = "せいかい！すごいね";
+                nextButton.style.display = "block";
+            } else if (currentQuestion === 5 && answer === "4") {
+                message.textContent = "せいかい！すごいね";
+                nextButton.style.display = "block";
+            } else if (currentQuestion === 6 && answer === "30") {
+                message.textContent = "せいかい！すごいね";
+                document.getElementById("quizContainer").style.display = "none";
+                showCongratulations();
+            } else {
+                message.textContent = "ちがいます。もう一度試してね";
+            }
+        }
+
+        function nextQuestion() {
+            const questionElement = document.getElementById("question");
+            const answerElement = document.getElementById("answer");
+            const messageElement = document.getElementById("message");
+            const nextButton = document.getElementById("nextButton");
+
+            currentQuestion++;
+            if (currentQuestion === 2) {
+                questionElement.textContent = "2 × 3 = ?";
+                answerElement.value = "";
+                messageElement.textContent = "";
+                nextButton.style.display = "none";
+            } else if (currentQuestion === 3) {
+                questionElement.textContent = "-1 + 4 = ?";
+                answerElement.value = "";
+                messageElement.textContent = "";
+                nextButton.style.display = "none";
+            } else if (currentQuestion === 4) {
+                questionElement.textContent = "-1 × -12 = ?";
+                answerElement.value = "";
+                messageElement.textContent = "";
+                nextButton.style.display = "none";
+            } else if (currentQuestion === 5) {
+                questionElement.textContent = "2² = ?";
+                answerElement.value = "";
+                messageElement.textContent = "";
+                nextButton.style.display = "none";
+            } else if (currentQuestion === 6) {
+                questionElement.textContent = "232 - 202 = ?";
+                answerElement.value = "";
+                messageElement.textContent = "";
+                nextButton.style.display = "none";
+            }
+        }
+
+        function showCongratulations() {
+            const congratulationsElement = document.getElementById("congratulations");
+            congratulationsElement.style.top = "50%";
+            congratulationsElement.style.left = "50%";
+            congratulationsElement.style.transform = "translate(-50%, -50%)";
+            congratulationsElement.style.display = "block";
+
+            setTimeout(() => {
+                document.body.style.backgroundColor = "black";
+                startBlinking();
+            }, 3000);
+        }
+
+        function startBlinking() {
+            setInterval(() => {
+                const newCongrats = document.createElement("div");
+                newCongrats.textContent = "ぜんぶとけたね！すごい！";
+                newCongrats.className = "congratulations";
+                newCongrats.style.top = `${Math.random() * window.innerHeight}px`;
+                newCongrats.style.left = `${Math.random() * window.innerWidth}px`;
+                document.body.appendChild(newCongrats);
+            }, Math.random() * 500); // Frequency increased
+            
+            // Change background to red after 15 seconds
+            setTimeout(() => {
+                document.body.style.transition = "background-color 5s ease-in-out";
+                document.body.style.backgroundColor = "red";
+                showTomato();
+            }, 15000);
+        }
+
+        function showTomato() {
+            const tomato = document.getElementById("tomato");
+            tomato.style.top = "50%";
+            tomato.style.left = "50%";
+            tomato.style.transform = "translate(-50%, -50%)";
+            tomato.style.display = "block";
+            setTimeout(() => {
+                tomato.style.opacity = 1;
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
